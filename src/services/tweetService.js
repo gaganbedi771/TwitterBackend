@@ -5,18 +5,15 @@ const { TweetRepository, HashtagRepository } = require("../repository/index");
 exports.create = async (data) => {
   const session = await mongoose.connection.startSession();
 
-  console.log("IN TRANSACTION:", session.inTransaction());
-
   try {
     session.startTransaction();
-    console.log("IN TRANSACTION:", session.inTransaction());
 
     //get content only to extract hashtags
     const content = data.content;
     const tags = [
       ...new Set(
         content.match(/#[a-zA-Z0-9_]+/g)?.map((tag) => {
-          return tag.substring(1);
+          return tag.substring(1).toLowerCase();
         }) || []
       ),
     ];
