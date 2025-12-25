@@ -4,6 +4,8 @@ const { PORT } = require("./config/serverConfig");
 const connect = require("./config/database");
 const apiRoutes = require("./routes/index");
 
+const { LikeService } = require("./services/index");
+
 const app = express();
 
 app.use(express.json());

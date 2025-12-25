@@ -1,29 +1,31 @@
-const Tweet = require("../models/tweet");
+const { Tweet } = require("../models/index");
 
-exports.create = async (data,session) => {
+exports.create = async (data, session) => {
   try {
-    const [tweet] = await Tweet.create([data],{session});
+    const [tweet] = await Tweet.create([data], { session });
     return tweet;
   } catch (error) {
-    console.log("Error in repository layer ", error);
+    console.log("Error in Tweet repository layer ", error);
+    throw error;
   }
 };
 
 exports.get = async (id) => {
   try {
-    const tweet = await Tweet.findById(id).populate({path:"comments"});
+    const tweet = await Tweet.findById(id);
     return tweet;
   } catch (error) {
-    console.log("Error in repository layer ", error.message);
+    console.log("Error in Tweet repository layer ", error.message);
+    throw error;
   }
 };
 
-
-exports.delete = async (id) => {
+exports.getAll = async (offset, limit) => {
   try {
-    await Tweet.findByIdAndRemove(id);
-    return true;
+    const tweets = await Tweet.find({}).skip(offset).limit(limit);
+    return tweets;
   } catch (error) {
-    console.log("Error in repository layer ", error.message);
+    console.log("Error in Tweet repository layer ", error.message);
+    throw error;
   }
 };

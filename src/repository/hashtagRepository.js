@@ -1,4 +1,4 @@
-const Hashtag = require("../models/hashtags");
+const { Hashtag } = require("../models/index");
 
 exports.create = async (data, session) => {
   try {

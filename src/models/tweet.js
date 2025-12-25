@@ -15,6 +15,12 @@ const tweetSchema = new mongoose.Schema(
         ref: "Hashtag",
       },
     ],
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Like",
+      },
+    ],
     // userEmail: {
     //   type: String,
     //   trim: true,
