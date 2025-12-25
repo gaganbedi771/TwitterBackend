@@ -12,7 +12,7 @@ exports.create = async (data, session) => {
 
 exports.get = async (id) => {
   try {
-    const tweet = await Tweet.findById(id);
+    const tweet = await Tweet.findById(id).populate({path:"comments",populate:{path:"comments"}});
     return tweet;
   } catch (error) {
     console.log("Error in Tweet repository layer ", error.message);

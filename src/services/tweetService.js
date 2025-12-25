@@ -70,8 +70,10 @@ exports.create = async (data) => {
   }
 };
 
-exports.get = async () => {
+exports.get = async (id) => {
   try {
+    const tweet = await TweetRepository.get(id);
+    return tweet;
   } catch (error) {
     console.log("Error at service layer ", error);
     throw error.message;

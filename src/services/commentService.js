@@ -1,10 +1,6 @@
-const {
-  LikeRepository,
-  TweetRepository,
-  CommentRepository,
-} = require("../repository/index");
+const { CommentRepository, TweetRepository } = require("../repository/index");
 
-exports.toggleLike = async (modelId, modelType, userId) => {
+exports.create = async (modelId, modelType, userId, content) => {
   try {
     if (modelType === "Tweet") {
       var target = await TweetRepository.get(modelId);
@@ -14,25 +10,18 @@ exports.toggleLike = async (modelId, modelType, userId) => {
       throw new Error("Unknown model type");
     }
 
-    const likeIfExists = await LikeRepository.getByNameModelIdModel({
-      onModel: modelType,
-      likeable: modelId,
+    const newComment = await CommentRepository.create({
+      content,
       user: userId,
+      onModel: modelType,
+      commentable: modelId,
+      comments: [],
     });
-    if (likeIfExists) {
-      target.likes.pull(likeIfExists.id);
-      await target.save();
-      await likeIfExists.deleteOne();
-    } else {
-      const newLike = await LikeRepository.create({
-        onModel: modelType,
-        likeable: modelId,
-        user: userId,
-      });
-      target.likes.push(newLike);
-      await target.save();
-    }
-    return true;
+
+    target.comments.push(newComment);
+    await target.save();
+
+    return newComment;
   } catch (error) {
     console.log("Error at service layer ", error);
     throw error.message;

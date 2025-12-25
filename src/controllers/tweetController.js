@@ -21,24 +21,25 @@ exports.create = async (req, res) => {
   }
 };
 
-// exports.create = async (req,res) => {
-//   try {
-//     res.status(201).json({
-//       data: d,
-//       success: true,
-//       error: {},
-//       message: "Tweet created successfully",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       data: {},
-//       success: false,
-//       error: error.message,
-//       message: "Something went wrong",
-//     });
-//   }
-// };
+exports.get = async (req, res) => {
+  try {
+    const tweet = await TweetService.get(req.params.id);
+    res.status(201).json({
+      data: tweet,
+      success: true,
+      error: {},
+      message: "Tweet fetched successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      data: {},
+      success: false,
+      error: error.message,
+      message: "Something went wrong, Cannot fetch tweet",
+    });
+  }
+};
 // exports.create = async (req,res) => {
 //   try {
 //     res.status(201).json({

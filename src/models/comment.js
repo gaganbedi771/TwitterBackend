@@ -9,12 +9,35 @@ const commentSchema = new mongoose.Schema(
       minlength: 1,
       maxlength: 250,
     },
-    userEmail: {
-      type: String,
-      trim: true,
-      lowercase: true,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
+    onModel: {
+      type: String,
+      required: true,
+      enum: ["Tweet", "Comment"],
+    },
+    commentable: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      refpath: "onModel",
+    },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Like",
+      },
+    ],
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
+
   { timestamps: true }
 );
 
